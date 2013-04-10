@@ -2,6 +2,15 @@
 
 MY_DIR=`dirname $0`
 
+echo "DIR: ${MY_DIR}"
+
+
+echo "================================"
+echo "Running: vagrant-ovs-bootstrap.sh"
+echo "DIR: ${MY_DIR}"
+echo "--------------------------------"
+
+
 if [[ -f vagrant-common.sh ]]
 then
 
@@ -10,12 +19,6 @@ else
     echo "Configuratin file not found: vagrant-common.sh"
     exit 1
 fi
-
-
-echo "================================"
-echo "Running: vagrant-ovs-bootstrap.sh"
-echo "DIR: ${MY_DIR}"
-echo "--------------------------------"
 
 # Ensure git is installed
 sudo apt-get update
@@ -26,4 +29,5 @@ sudo apt-get -y install git
 # cd OpenStackInstaller
 # git checkout folsom
 
-./folsom/install-ovs.sh
+cd folsom
+./install-ovs.sh

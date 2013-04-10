@@ -1,12 +1,19 @@
 #!/bin/bash
 
+
+echo "================================"
+echo "Running: folsom-horizon.sh"
+echo "--------------------------------"
+
 # Source in configuration file
 if [[ -f openstack.conf ]]
 then
-	. openstack.conf
+    . openstack.conf
 else
-	echo "Configuration file not found. Please create openstack.conf"
-	exit 1
+    echo "================================"
+    echo "[ERROR] Configuration file not found. Please create openstack.conf"
+    echo "--------------------------------"
+    exit 1
 fi
 
 DASHBOARD_LOCAL_SETTINGS=/etc/openstack-dashboard/local_settings.py

@@ -2,13 +2,19 @@
 
 # Cinder requires LVM volume: cinder-volumes
 
+echo "================================"
+echo "Running: folsom-cinder.sh"
+echo "--------------------------------"
+
 # Source in configuration file
 if [[ -f openstack.conf ]]
 then
-	. openstack.conf
+    . openstack.conf
 else
-	echo "Configuration file not found. Please create openstack.conf"
-	exit 1
+    echo "================================"
+    echo "[ERROR] Configuration file not found. Please create openstack.conf"
+    echo "--------------------------------"
+    exit 1
 fi
 
 CINDER_CONF=/etc/cinder/cinder.conf

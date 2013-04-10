@@ -40,8 +40,12 @@ Vagrant.configure("2") do |config|
     end
   
     # Execute the installation scripts (via SSH)
-    controller_config.vm.provision :shell, :path => "vagrant-ovs-bootstrap.sh"
-    controller_config.vm.provision :shell, :path => "vagrant-controller-bootstrap.sh"
+    # controller_config.vm.provision :shell, :path => "vagrant-ovs-bootstrap.sh"
+    # controller_config.vm.provision :shell, :path => "vagrant-controller-bootstrap.sh"
+
+    controller_config.vm.provision :shell, :inline => "cd /vagrant && ./vagrant-ovs-bootstrap.sh"
+    controller_config.vm.provision :shell, :inline => "cd /vagrant && ./vagrant-controller-bootstrap.sh"
+
   end
 
   # Compute VM
@@ -68,6 +72,6 @@ Vagrant.configure("2") do |config|
     end
 
     # Execute the installation scripts (via SSH)
-    compute_config.vm.provision :shell, :path => "vagrant-compute-bootstrap.sh"
+    compute_config.vm.provision :shell, :inline => "cd /vagrant && ./vagrant-compute-bootstrap.sh"
    end
 end

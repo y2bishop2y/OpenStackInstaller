@@ -1,12 +1,20 @@
 #!/bin/bash
 
+
+echo "================================"
+echo "Running: folsom-quantum-agent.sh"
+echo "--------------------------------"
+
+
 # Source in configuration file
 if [[ -f openstack.conf ]]
 then
-	. openstack.conf
+    . openstack.conf
 else
-	echo "Configuration file not found. Please create openstack.conf"
-	exit 1
+    echo "================================"
+    echo "[ERROR] Configuration file not found. Please create openstack.conf"
+    echo "--------------------------------"
+    exit 1
 fi
 
 QUANTUM_CONF=/etc/quantum/quantum.conf
@@ -49,10 +57,10 @@ EOF
 }
 
 quantum_agent_restart() {
-	sudo service openvswitch-switch stop
-	sudo service openvswitch-switch start
-	sudo service quantum-plugin-openvswitch-agent stop
-	sudo service quantum-plugin-openvswitch-agent start
+    sudo service openvswitch-switch stop
+    sudo service openvswitch-switch start
+    sudo service quantum-plugin-openvswitch-agent stop
+    sudo service quantum-plugin-openvswitch-agent start
 }
 
 # Main

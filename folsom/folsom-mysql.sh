@@ -1,12 +1,20 @@
 #!/bin/bash
 
+
+echo "================================"
+echo "Running: folsom-mysql.sh"
+echo "--------------------------------"
+
+
 # Source in configuration file
 if [[ -f openstack.conf ]]
 then
-        . openstack.conf
+    . openstack.conf
 else
-        echo "Configuration file not found. Please create openstack.conf"
-        exit 1
+    echo "================================"
+    echo "[ERROR] Configuration file not found. Please create openstack.conf"
+    echo "--------------------------------"
+    exit 1
 fi
 
 configure_package_archive() {
@@ -36,15 +44,15 @@ configure_mysql() {
 }
 
 recreate_databases() {
-	# MySQL
-	# Create database
-	for d in nova glance cinder keystone quantum
-	do
-		mysql -uroot -p$MYSQL_ROOT_PASS -e "drop database if exists $d;"
-		mysql -uroot -p$MYSQL_ROOT_PASS -e "create database $d;"
-		mysql -uroot -p$MYSQL_ROOT_PASS -e "grant all privileges on $d.* to $d@\"localhost\" identified by \"$MYSQL_DB_PASS\";"
-		mysql -uroot -p$MYSQL_ROOT_PASS -e "grant all privileges on $d.* to $d@\"%\" identified by \"$MYSQL_DB_PASS\";"
-	done
+    # MySQL
+    # Create database
+    for d in nova glance cinder keystone quantum
+    do
+	mysql -uroot -p$MYSQL_ROOT_PASS -e "drop database if exists $d;"
+	mysql -uroot -p$MYSQL_ROOT_PASS -e "create database $d;"
+	mysql -uroot -p$MYSQL_ROOT_PASS -e "grant all privileges on $d.* to $d@\"localhost\" identified by \"$MYSQL_DB_PASS\";"
+	mysql -uroot -p$MYSQL_ROOT_PASS -e "grant all privileges on $d.* to $d@\"%\" identified by \"$MYSQL_DB_PASS\";"
+    done
 }
 
 # Main

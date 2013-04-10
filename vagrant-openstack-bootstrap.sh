@@ -3,20 +3,20 @@
 MY_DIR=`dirname $0`
 
 
+echo "================================"
+echo "Running: vagrant-openstack-bootstrap.sh"
+echo "DIR: ${MY_DIR}" 
+echo "--------------------------------"
+
+
 if [[ -f vagrant-common.sh ]]
 then
 
     . vagrant-common.sh
 else
-    echo "Configuratin file not found: vagrant-common.sh"
+    echo "Configuration file not found: vagrant-common.sh"
     exit 1
 fi
-
-
-echo "================================"
-echo "Running: vagrant-openstack-bootstrap.sh"
-echo "DIR: ${MY_DIR}" 
-echo "--------------------------------"
 
 
 
@@ -30,4 +30,5 @@ sudo apt-get -y install git
 # git checkout folsom
 # sed -i 's/192.168.1.12/${MYSQL_SERVER_IP}/g' openstack.conf
 
-./folsom/install-folsom.sh
+cd folsom
+./install-folsom.sh
