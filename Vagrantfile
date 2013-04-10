@@ -1,17 +1,17 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant::Config.run do |config|
+Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.define :controller do |controller_config|
+  config.vm.define "controller" do |controller_config|
 
     # Every Vagrant virtual environment requires a box to build off of.
-    controller_config.vm.box = "precise64"
+    controller_config.vm.box      = "precise64"
 
-    controller_config.vm.host_name = "controller"
+    controller_config.vm.hostname = "controller-node"
 
     # The url from where the 'config.vm.box' box will be fetched if it
     # doesn't already exist on the user's system.
@@ -24,15 +24,20 @@ Vagrant::Config.run do |config|
     # via the IP. Host-only networks can talk to the host machine as well as
     # any other machines on the same network, but cannot be accessed (through this
     # network interface) by any external networks.
-    controller_config.vm.network :hostonly, "172.16.0.201", :netmask => "255.255.0.0"
-    controller_config.vm.network :hostonly, "10.5.5.201"
+    # controller_config.vm.network :private_network, ip: "172.16.0.204", :netmask => "255.255.0.0"
+    controller_config.vm.network :private_network, ip: "192.168.0.204", :netmask => "255.255.0.0"
+    controller_config.vm.network :private_network, ip: "10.5.5.204"
     #controller_config.vm.network :hostonly, "10.5.5.254"
 
     # Customise the VM virtual hardware
-    controller_config.vm.customize ["modifyvm", :id, "--memory", 2048]
-    controller_config.vm.customize ["modifyvm", :id, "--cpus", 1]
-    controller_config.vm.customize ["createhd", "--filename", "controller-cinder.vdi", "--size", 20480]
-    controller_config.vm.customize ["storageattach", :id, "--storagectl", "SATA Controller","--port", 1, "--device", 0, "--type", "hdd", "--medium", "controller-cinder.vdi"] 
+
+    controller_config.vm.provider "virtualbox" do |v|
+      # v.gui = true
+      v.customize ["modifyvm", :id, "--memory", 2048]
+      v.customize ["modifyvm", :id, "--cpus", 1]
+      v.customize ["createhd", "--filename", "controller-cinder.vdi", "--size", 20480]
+      v.customize ["storageattach", :id, "--storagectl", "SATA Controller","--port", 1, "--device", 0, "--type", "hdd", "--medium", "controller-cinder.vdi"] 
+    end
   
     # Execute the installation scripts (via SSH)
     controller_config.vm.provision :shell, :path => "vagrant-ovs-bootstrap.sh"
@@ -40,24 +45,28 @@ Vagrant::Config.run do |config|
   end
 
   # Compute VM
-  config.vm.define :compute do |compute_config|
+  config.vm.define "compute" do |compute_config|
 
     # Every Vagrant virtual environment requires a box to build off of.
-    compute_config.vm.box = "precise64"
+    compute_config.vm.box       = "precise64"
 
-    compute_config.vm.host_name = "compute"
+    compute_config.vm.hostname = "compute-node"
 
     # The url from where the 'config.vm.box' box will be fetched if it
     # doesn't already exist on the user's system.
     compute_config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-    compute_config.vm.network :hostonly, "172.16.0.202", :netmask => "255.255.0.0"
-    compute_config.vm.network :hostonly, "10.5.5.202"
+    # compute_config.vm.network :private_network, ip: "172.16.0.205", :netmask => "255.255.0.0"
+    compute_config.vm.network :private_network, ip: "192.168.0.205", :netmask => "255.255.0.0"
+    compute_config.vm.network :private_network, ip: "10.5.5.206"
 
     # Customise the VM virtual hardware
-    compute_config.vm.customize ["modifyvm", :id, "--memory", 2048]
-    compute_config.vm.customize ["modifyvm", :id, "--cpus", 2]
-  
+    compute_config.vm.provider "virtualbox" do |v|
+      # v.gui = true
+      v.customize ["modifyvm", :id, "--memory", 2048]
+      v.customize ["modifyvm", :id, "--cpus", 2]
+    end
+
     # Execute the installation scripts (via SSH)
     compute_config.vm.provision :shell, :path => "vagrant-compute-bootstrap.sh"
    end
