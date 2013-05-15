@@ -20,11 +20,11 @@ NOVA_CONF=/etc/nova/nova.conf
 NOVA_API_PASTE=/etc/nova/api-paste.ini
 
 nova_compute_install() {
-	sudo apt-get -y install nova-api-metadata nova-compute nova-compute-qemu nova-doc
+    sudo apt-get -y install nova-api-metadata nova-compute nova-compute-qemu nova-doc
 }
 
 nova_configure() {
-	cat > /tmp/nova.conf << EOF
+    cat > /tmp/nova.conf << EOF
 [DEFAULT]
 logdir=/var/log/nova
 state_path=/var/lib/nova
@@ -110,12 +110,11 @@ EOF
 }
 
 nova_restart() {
-	for P in $(ls /etc/init/nova* | cut -d'/' -f4 | cut -d'.' -f1)
-	do
-		sudo stop ${P} 
-		sudo start ${P}
-	done
-
+    for P in $(ls /etc/init/nova* | cut -d'/' -f4 | cut -d'.' -f1)
+    do
+	sudo stop ${P} 
+	sudo start ${P}
+    done
 }
 
 # Main

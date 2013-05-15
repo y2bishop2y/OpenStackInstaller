@@ -25,6 +25,7 @@ fi
 # Ensure git is installed
 sudo apt-get update
 sudo apt-get -y install git
+sudo apt-get install emacs23 
 
 # git clone OpenStackInstaller
 # git clone https://github.com/uksysadmin/OpenStackInstaller.git
@@ -40,4 +41,9 @@ cd folsom
 echo "================================"
 echo "Setting up hosts file" 
 echo "${CONTROLLER_NODE_IP} controller-node" >> /etc/hosts
+echo "--------------------------------"
+echo "" 
+echo "================================"
+echo "nameserver 10.11.50.31" >> /etc/resolv.conf
+echo "nameserver 10.11.50.41" >> /etc/resolv.conf
 echo "--------------------------------"

@@ -111,20 +111,21 @@ EOF
 }
 
 nova_networking() {
-	# Defunct - not called
-	# VLAN (for now)
-	sudo nova-manage network create private --fixed_range_v4=$FIXED_RANGE --num_networks=1 --bridge=br100 --bridge_interface=$PRIVATE_INTERFACE --network_size=64 --vlan=$VLAN_START
-	sudo nova-manage floating create --ip_range=$FLOATING_RANGE
+    # Defunct - not called
+    # VLAN (for now)
+    sudo nova-manage network create private --fixed_range_v4=$FIXED_RANGE --num_networks=1 --bridge=br100 --bridge_interface=$PRIVATE_INTERFACE --network_size=64 --vlan=$VLAN_START
+    
+    sudo nova-manage floating create --ip_range=$FLOATING_RANGE
 }
 
 nova_restart() {
-	for P in $(ls /etc/init/nova* | cut -d'/' -f4 | cut -d'.' -f1)
-	do
-		sudo stop ${P} 
-		sudo start ${P}
-	done
+    for P in $(ls /etc/init/nova* | cut -d'/' -f4 | cut -d'.' -f1)
+    do
+	sudo stop ${P} 
+	sudo start ${P}
+    done
 
-	sudo service rabbitmq-server restart
+    sudo service rabbitmq-server restart
 }
 
 # Main

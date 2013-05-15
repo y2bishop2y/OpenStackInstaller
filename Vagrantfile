@@ -67,7 +67,7 @@ Vagrant.configure("2") do |config|
     # Customise the VM virtual hardware
     compute_config.vm.provider "virtualbox" do |v|
       # v.gui = true
-      v.customize ["modifyvm", :id, "--memory", 2048]
+      v.customize ["modifyvm", :id, "--memory", 8192]
       v.customize ["modifyvm", :id, "--cpus", 2]
     end
 
