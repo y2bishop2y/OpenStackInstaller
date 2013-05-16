@@ -4,6 +4,7 @@
 # VBoxManage hostonlyif create
 # VBoxManage hostonlyif ipconfig vboxnet0 --ip 172.16.0.254 --netmask 255.255.0.0
 
+# Public Network  vboxnet0 (192.168.0.0/16)
 VBoxManage hostonlyif create
 VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.0.254 --netmask 255.255.0.0
 

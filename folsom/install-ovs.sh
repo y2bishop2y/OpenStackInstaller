@@ -21,6 +21,7 @@ fi
 ovs_install() {
 	sudo apt-get update
 	sudo apt-get -y install linux-headers-`uname -r` openvswitch-switch 
+	sudo apt-get -y install pm-utils
 	sudo service openvswitch-switch start
 }
 
