@@ -33,6 +33,8 @@ cinder_configure() {
 
 	# Database
 	sudo sed -i "s,^sql_connection.*,sql_connection = mysql://cinder:$MYSQL_DB_PASS@$MYSQL_SERVER/cinder,g" $CINDER_CONF
+
+	sudo cinder-manage db sync
 }
 
 cinder_device_configure() {
