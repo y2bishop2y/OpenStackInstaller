@@ -2,13 +2,11 @@
 
 
 
-
-
 #============================
 # GLOBALS
 #----------------------------
-SERVICES=(nova-api nova-cert nova-consoleauth nova-novncproxy nova-objectstore nova-scheduler nova-volume)
-
+# SERVICES_NOVA=(nova-api nova-cert nova-consoleauth nova-novncproxy nova-objectstore nova-scheduler nova-volume)
+SERVICES_NOVA=(nova-api nova-cert nova-consoleauth nova-novncproxy)
 
 SERVICES_CINDER=(cinder-api cinder-scheduler cinder-volume)
 
@@ -38,7 +36,7 @@ function run_loop() {
 
     for service in "${services[@]}"
     do
-	echo "sudo service  ${service} ${action}"
+	sudo service  ${service} ${action}
     done 
 }
 
@@ -60,7 +58,6 @@ function validElement() {
     done
     return 0
 }
-
 
 #============================
 #----------------------------
@@ -91,13 +88,11 @@ function controller() {
     # run_loop ${action} ${SERVICES_HORIZON[@]}
     echo "-------------------------"
 
-
 }
 
 #============================
 # MAIN
 #----------------------------
-
 
 echo "=========================" 
 echo "Managing OpenStack Nove services" 
@@ -144,7 +139,6 @@ while getopts "a:s:" opt; do
 done
 
 
-
 #============================
 # Make sure the server type is correct
 #----------------------------
@@ -153,7 +147,6 @@ case $server in
 	controller $action
 	;;
     
-
     "compute")
 	compute $action
 	;;

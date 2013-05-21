@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+
 echo "================================"
 echo "Running: folsom-keystone.sh"
 echo "--------------------------------"
@@ -59,7 +60,7 @@ keystone_create_services() {
 	keystone service-create --name glance --type image --description 'OpenStack Image Service'
 	keystone service-create --name keystone --type identity --description 'OpenStack Identity Service'
 	keystone service-create --name ec2 --type ec2 --description 'EC2 Service'
-	# 	keystone service-create --name volume --type volume --description 'Volume Service'
+	#keystone service-create --name volume --type volume --description 'Volume Service'
 	keystone service-create --name cinder --type volume --description 'Cinder Service'
 	keystone service-create --name quantum --type network --description 'OpenStack Networking Service'
 }
@@ -125,12 +126,12 @@ keystone_install
 keystone_create_environment_resource_file
 . adminrc
 
-keystone_create_roles
+# keystone_create_roles
 keystone_create_default_tenant
 keystone_create_user_admin
 keystone_assign_roles_admin
 
-keystone_create_services
+# keystone_create_services
 keystone_create_service_endpoints
 keystone_create_service_tenant
 keystone_create_user_services
