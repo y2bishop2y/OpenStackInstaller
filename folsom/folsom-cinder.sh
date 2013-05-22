@@ -32,7 +32,10 @@ cinder_configure() {
 	sudo sed -i "s/%SERVICE_PASSWORD%/$SERVICE_PASS/g" $CINDER_API_PASTE
 
 	# Database
-	sudo sed -i "s,^sql_connection.*,sql_connection = mysql://cinder:$MYSQL_DB_PASS@$MYSQL_SERVER/cinder,g" $CINDER_CONF
+	# TODO: Have to make sure this value is set. Append the sql_connection to the config file
+	# seems that default config does not have the sql_connection
+	# sudo sed -i "s,^sql_connection.*,sql_connection = mysql://cinder:$MYSQL_DB_PASS@$MYSQL_SERVER/cinder,g" $CINDER_CONF
+	sudo set -i "\$asql_connection = mysql://cinder:$MYSQL_DB_PASS@$MYSQL_SERVER/cinder,g" $CINDER_CONF
 
 	sudo cinder-manage db sync
 }
