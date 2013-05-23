@@ -30,7 +30,8 @@ logdir=/var/log/nova
 state_path=/var/lib/nova
 lock_path=/run/lock/nova
 allow_admin_api=true
-verbose=True
+debug = False
+verbose = True
 api_paste_config=/etc/nova/api-paste.ini
 scheduler_driver=nova.scheduler.simple.SimpleScheduler
 s3_host=$SWIFT_ENDPOINT
@@ -62,8 +63,11 @@ resume_guests_state_on_host_boot=false
 novnc_enabled=true
 novncproxy_base_url=http://$NOVA_ENDPOINT:6080/vnc_auto.html
 novncproxy_port=6080
-vncserver_proxyclient_address=$NOVA_ENDPOINT
-vncserver_listen=$NOVA_ENDPOINT
+# The address of the compute NODE 
+vncserver_proxyclient_address=192.168.0.205
+vncserver_listen=0.0.0.0
+# vncserver_proxyclient_address=$NOVA_ENDPOINT
+# vncserver_listen=$NOVA_ENDPOINT
 
 # Network settings
 #dhcpbridge_flagfile=/etc/nova/nova.conf
@@ -110,7 +114,7 @@ EOF
 }
 
 nova_restart() {
-    for P in $(ls /etc/init/nova* | cut -d'/' -f4 | cut -d'.' -f1)
+    for P in $(ls -la /etc/init/nova* | cut -d'/' -f4 | cut -d'.' -f1)
     do
 	sudo stop ${P} 
 	sudo start ${P}
