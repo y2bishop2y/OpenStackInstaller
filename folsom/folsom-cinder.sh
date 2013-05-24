@@ -19,6 +19,7 @@ fi
 
 CINDER_CONF=/etc/cinder/cinder.conf
 CINDER_API_PASTE=/etc/cinder/api-paste.ini
+TGT_CONF=/etc/tgt/targets.conf
 
 cinder_install() {
 	sudo apt-get -y install cinder-api cinder-scheduler cinder-volume open-iscsi python-cinderclient tgt
@@ -31,13 +32,23 @@ cinder_configure() {
 	sudo sed -i "s/%SERVICE_USER%/cinder/g" $CINDER_API_PASTE
 	sudo sed -i "s/%SERVICE_PASSWORD%/$SERVICE_PASS/g" $CINDER_API_PASTE
 
+	#=============================
 	# Database
 	# TODO: Have to make sure this value is set. Append the sql_connection to the config file
 	# seems that default config does not have the sql_connection
 	# sudo sed -i "s,^sql_connection.*,sql_connection = mysql://cinder:$MYSQL_DB_PASS@$MYSQL_SERVER/cinder,g" $CINDER_CONF
-	sudo set -i "\$asql_connection = mysql://cinder:$MYSQL_DB_PASS@$MYSQL_SERVER/cinder,g" $CINDER_CONF
+	#-----------------------------
+	sudo sed -i "\$asql_connection = mysql:/i th/cinder:$MYSQL_DB_PASS@$MYSQL_SERVER/cinder" $CINDER_CONF
+	sudo sed -i "\$adebug = False" $CINDER_CONF
 
 	sudo cinder-manage db sync
+
+	#=============================
+	# Have to edit the /var/etc/tgt file 
+	#-----------------------------
+	sude set -i "s/^include \/etc\/tgt\/conf.d\/*.conf/# include \/etc\/tgt\/conf.d\/*.conf/g" ${TGT_CONF}
+	sudo set -i "\$ainclude /etc/tgt/conf.d/cinder_tgt.conf" ${TGT_CONF}
+	sudo set -i "\$ainclude /etc/tgt/conf.d/nova_tgt.conf" ${TGT_CONF}
 }
 
 cinder_device_configure() {
@@ -54,10 +65,12 @@ cinder_device_configure() {
 }
 
 cinder_restart() {
-	sudo stop cinder-api
+	sudo stop  cinder-api
 	sudo start cinder-api
-	sudo stop cinder-volume
+	sudo stop  cinder-volume
 	sudo start cinder-volume
+	sudo stop  cinder-scheduler
+	sudo start cinder-scheduler
 }
 
 # Main
