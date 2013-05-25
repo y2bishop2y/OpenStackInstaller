@@ -31,6 +31,9 @@ case $1 in
 	./folsom-quantum-agent.sh 2>&1 | tee -a  /tmp/install.log
 	./folsom-compute.sh       2>&1 | tee -a  /tmp/install.log
 	;;
+    "network")
+	echo "NETWORK"
+	;;
     *)
 	echo "================================"
 	echo "[ERROR] Need to specify: controller or compute"

@@ -6,6 +6,9 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
+  #============================
+  # NOVA Controller Node
+  #----------------------------
   config.vm.define "controller" do |controller_config|
 
     # Every Vagrant virtual environment requires a box to build off of.
@@ -48,7 +51,9 @@ Vagrant.configure("2") do |config|
 
   end
 
-  # Compute VM
+  #============================
+  # NOVA Compute Node
+  #----------------------------
   config.vm.define "compute" do |compute_config|
 
     # Every Vagrant virtual environment requires a box to build off of.
@@ -74,4 +79,48 @@ Vagrant.configure("2") do |config|
     # Execute the installation scripts (via SSH)
     compute_config.vm.provision :shell, :inline => "cd /vagrant && ./vagrant-compute-bootstrap.sh"
    end
+
+  #============================
+  # Network Node: Running quantum
+  #----------------------------
+  config.vm.define "network" do |network_config|
+
+    # Every Vagrant virtual environment requires a box to build off of.
+    network_config.vm.box       = "precise64"
+
+    network_config.vm.hostname = "network-node"
+
+    # The url from where the 'config.vm.box' box will be fetched if it
+    # doesn't already exist on the user's system.
+    network_config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+
+    # Execute the installation scripts (via SSH)
+    network_config.vm.provision :shell, :inline => "cd /vagrant && ./vagrant-network-bootstrap.sh"
+
+  end
+  
+  #============================
+  # Monitor Node: Running Ganglia and Spluk
+  #----------------------------
+  config.vm.define "monitor" do |monitor_config|
+
+    # Every Vagrant virtual environment requires a box to build off of.
+    monitor_config.vm.box       = "precise64"
+
+    monitor_config.vm.hostname = "monitor-node"
+
+    # The url from where the 'config.vm.box' box will be fetched if it
+    # doesn't already exist on the user's system.
+    monitor_config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    
+    monitor_config.vm.provision :puppet do |puppet|
+      puppet.manifests_path = 'puppet/manifests'
+      puppet.module_path    = 'puppet/modules'
+    end
+
+
+  end
+  
+
 end
