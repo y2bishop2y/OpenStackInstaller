@@ -52,6 +52,7 @@ reconnect_interval = 2
 tenant_network_type=vlan
 network_vlan_ranges = ${PHYSICAL_NETWORK_NAME}:1:4094
 bridge_mappings = physnet1:br-${PRIVATE_INTERFACE}
+
 #tenant_network_type = gre
 #tunnel_id_ranges = 1:1000
 #integration_bridge = ${INT_BRIDGE}
@@ -61,6 +62,7 @@ bridge_mappings = physnet1:br-${PRIVATE_INTERFACE}
 [AGENT]
 root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
 EOF
+
     sudo mv /tmp/ovs_quantum_plugin.ini $OVS_QUANTUM_PLUGIN_INI
     sudo chown quantum:quantum $OVS_QUANTUM_PLUGIN_INI
     sudo chmod 644 $OVS_QUANTUM_PLUGIN_INI

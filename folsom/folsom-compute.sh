@@ -31,7 +31,7 @@ state_path=/var/lib/nova
 lock_path=/run/lock/nova
 allow_admin_api=true
 debug = False
-verbose = True
+verbose = False
 api_paste_config=/etc/nova/api-paste.ini
 scheduler_driver=nova.scheduler.simple.SimpleScheduler
 s3_host=$SWIFT_ENDPOINT
@@ -53,7 +53,7 @@ glance_api_servers=$GLANCE_ENDPOINT:9292
 image_service=nova.image.glance.GlanceImageService
 
 # Virt driver
-connection_type=libvirt
+compute_driver = libvirt.LibvirtDriver
 libvirt_type=$LIBVIRT_TYPE
 libvirt_use_virtio_for_bridges=true
 start_guests_on_host_boot=false
