@@ -25,6 +25,7 @@ OVS_QUANTUM_PLUGIN_INI=/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini
 
 function quantum_agent_install() {
 	sudo apt-get -y install linux-headers-`uname -r` quantum-plugin-openvswitch-agent openvswitch-datapath-source
+	sudo apt-get install pm-utils
 
 	sudo module-assistant auto-install openvswitch-datapath
 }
@@ -99,9 +100,11 @@ function ovs_configure() {
 #=========================
 # Main
 #-------------------------
+ovs_configure
+
 quantum_agent_install
 quantum_agent_configure
 quantum_agent_restart
 
 
-ovs_configure
+

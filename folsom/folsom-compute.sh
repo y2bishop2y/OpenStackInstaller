@@ -22,12 +22,15 @@ NOVA_API_PASTE=/etc/nova/api-paste.ini
 
 QEMU_CONF=/etc/libvirt/qemu.conf
 
-LIBVIRTD_CONF=/etc/libvirtd.conf
+LIBVIRTD_CONF=/etc/libvirt/libvirtd.conf
 LIBVIRT_INIT_CONF=/etc/init/libvirt-bin.conf
-LIBVIRT_DEFAULT=/etc/default/libvirt-bin
+LIBVIRT_DEFAULT_CONF=/etc/default/libvirt-bin
 
 nova_compute_install() {
     sudo apt-get -y install nova-api-metadata nova-compute nova-compute-qemu nova-doc
+
+    #-- Because I need a real editor
+    sudo apt-get install emacs23
 }
 
 nova_configure() {
