@@ -100,10 +100,13 @@ function ovs_configure() {
 #=========================
 # Main
 #-------------------------
-ovs_configure
-
 quantum_agent_install
 quantum_agent_configure
+
+ovs_configure
+
+
+
 quantum_agent_restart
 
 
