@@ -21,11 +21,11 @@ NOVA_CONF=/etc/nova/nova.conf
 NOVA_API_PASTE=/etc/nova/api-paste.ini
 
 nova_install() {
-	sudo apt-get -y install nova-api nova-cert nova-doc nova-objectstore nova-scheduler nova-volume rabbitmq-server novnc nova-novncproxy nova-consoleauth python-cinderclient
+    sudo apt-get -y install nova-api nova-cert nova-doc nova-objectstore nova-scheduler nova-volume rabbitmq-server novnc nova-novncproxy nova-consoleauth python-cinderclient
 }
 
 nova_configure() {
-	cat > /tmp/nova.conf << EOF
+    cat > /tmp/nova.conf << EOF
 [DEFAULT]
 logdir=/var/log/nova
 state_path=/var/lib/nova
@@ -109,18 +109,18 @@ volume_api_class=nova.volume.cinder.API
 osapi_volume_listen_port=5900
 EOF
 
-	sudo rm -f $NOVA_CONF
-	sudo mv /tmp/nova.conf $NOVA_CONF
-	sudo chmod 0640 $NOVA_CONF
-	sudo chown nova:nova $NOVA_CONF
+    sudo rm -f $NOVA_CONF
+    sudo mv /tmp/nova.conf $NOVA_CONF
+    sudo chmod 0640 $NOVA_CONF
+    sudo chown nova:nova $NOVA_CONF
 
-	# Paste file
-        sudo sed -i "s/127.0.0.1/$KEYSTONE_ENDPOINT/g" $NOVA_API_PASTE
-        sudo sed -i "s/%SERVICE_TENANT_NAME%/$SERVICE_TENANT/g" $NOVA_API_PASTE
-        sudo sed -i "s/%SERVICE_USER%/nova/g" $NOVA_API_PASTE
-        sudo sed -i "s/%SERVICE_PASSWORD%/$SERVICE_PASS/g" $NOVA_API_PASTE
+    # Paste file
+    sudo sed -i "s/127.0.0.1/${KEYSTONE_ENDPOINT}/g"          ${NOVA_API_PASTE}
+    sudo sed -i "s/%SERVICE_TENANT_NAME%/${SERVICE_TENANT}/g" ${NOVA_API_PASTE}
+    sudo sed -i "s/%SERVICE_USER%/nova/g"                     ${NOVA_API_PASTE}
+    sudo sed -i "s/%SERVICE_PASSWORD%/${SERVICE_PASS}/g"      ${NOVA_API_PASTE}
 
-	sudo nova-manage db sync
+    sudo nova-manage db sync
 }
 
 nova_networking() {

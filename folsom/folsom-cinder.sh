@@ -27,10 +27,10 @@ cinder_install() {
 
 cinder_configure() {
 	# Cinder Api Paste
-	sudo sed -i "s/127.0.0.1/$KEYSTONE_ENDPOINT/g" $CINDER_API_PASTE
-	sudo sed -i "s/%SERVICE_TENANT_NAME%/$SERVICE_TENANT/g" $CINDER_API_PASTE
-	sudo sed -i "s/%SERVICE_USER%/cinder/g" $CINDER_API_PASTE
-	sudo sed -i "s/%SERVICE_PASSWORD%/$SERVICE_PASS/g" $CINDER_API_PASTE
+	sudo sed -i "s/127.0.0.1/${KEYSTONE_ENDPOINT}/g"          ${CINDER_API_PASTE}
+	sudo sed -i "s/%SERVICE_TENANT_NAME%/${SERVICE_TENANT}/g" ${CINDER_API_PASTE}
+	sudo sed -i "s/%SERVICE_USER%/cinder/g"                   ${CINDER_API_PASTE}
+	sudo sed -i "s/%SERVICE_PASSWORD%/${SERVICE_PASS}/g"      ${CINDER_API_PASTE}
 
 	#=============================
 	# Database
@@ -38,8 +38,9 @@ cinder_configure() {
 	# seems that default config does not have the sql_connection
 	# sudo sed -i "s,^sql_connection.*,sql_connection = mysql://cinder:$MYSQL_DB_PASS@$MYSQL_SERVER/cinder,g" $CINDER_CONF
 	#-----------------------------
-	sudo sed -i "\$asql_connection = mysql:/i th/cinder:$MYSQL_DB_PASS@$MYSQL_SERVER/cinder" $CINDER_CONF
-	sudo sed -i "\$adebug = False" $CINDER_CONF
+	sudo sed -i "\$asql_connection = mysql://cinder:${MYSQL_DB_PASS}@${MYSQL_SERVER}/cinder" ${CINDER_CONF}
+	sudo sed -i "\$adebug   = False" ${CINDER_CONF}
+	sudo sed -i "\$averbose = False" ${CINDER_CONF}
 
 	sudo cinder-manage db sync
 
@@ -56,9 +57,9 @@ cinder_device_configure() {
 	if [[ $CINDER_DEVICE ]]
 	then
 		sudo partprobe
-		sudo parted $CINDER_DEVICE mklabel msdos
-		sudo parted $CINDER_DEVICE mkpart primary ext2 4 $CINDER_DEVICE_SIZE_MB
-		sudo parted $CINDER_DEVICE set 1 lvm on
+		sudo parted ${CINDER_DEVICE} mklabel msdos
+		sudo parted ${CINDER_DEVICE} mkpart primary ext2 4 $CINDER_DEVICE_SIZE_MB
+		sudo parted ${CINDER_DEVICE} set 1 lvm on
 		pvcreate ${CINDERDEVICE}1
 		vgcreate cinder-volumes ${CINDER_DEVICE}1
 	fi		
