@@ -45,7 +45,9 @@ sql_connection=mysql://nova:$MYSQL_DB_PASS@$MYSQL_SERVER/nova
 ec2_url=http://$EC2_ENDPOINT:8773/services/Cloud
 rootwrap_config=/etc/nova/rootwrap.conf
 
+#=======================
 # Auth
+#-----------------------
 use_deprecated_auth=false
 auth_strategy=keystone
 keystone_ec2_url=http://$KEYSTONE_ENDPOINT:5000/v2.0/ec2tokens
@@ -53,14 +55,19 @@ keystone_ec2_url=http://$KEYSTONE_ENDPOINT:5000/v2.0/ec2tokens
 glance_api_servers=$GLANCE_ENDPOINT:9292
 image_service=nova.image.glance.GlanceImageService
 
+#=======================
 # Virt driver
-connection_type=libvirt
+#-----------------------
+# connection_type=libvirt
+compute_driver = libvirt.LibvirtDriver
 libvirt_type=$LIBVIRT_TYPE
 libvirt_use_virtio_for_bridges=true
 start_guests_on_host_boot=false
 resume_guests_state_on_host_boot=false
 
+#=======================
 # Vnc configuration
+#-----------------------
 vnc_enabled=true
 novncproxy_base_url=http://$NOVA_ENDPOINT:6080/vnc_auto.html
 novncproxy_port=6080
@@ -68,7 +75,9 @@ vncserver_proxyclient_address=$NOVA_ENDPOINT
 # vncserver_listen=$NOVA_ENDPOINT
 vncserver_listen=0.0.0.0
 
+#=======================
 # Network settings
+#-----------------------
 #dhcpbridge_flagfile=/etc/nova/nova.conf
 #dhcpbridge=/usr/bin/nova-dhcpbridge
 #network_manager=nova.network.manager.VlanManager
@@ -91,7 +100,9 @@ firewall_driver=nova.virt.libvirt.firewall.IptablesFirewallDriver
 force_dhcp_release=True
 multi_host=True
 
-# Cinder #
+#=======================
+# Cinder 
+#-----------------------
 iscsi_helper=tgt
 iscsi_ip_address=$CINDER_ENDPOINT
 volume_api_class=nova.volume.cinder.API

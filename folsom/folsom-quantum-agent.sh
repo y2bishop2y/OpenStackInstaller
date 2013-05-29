@@ -19,27 +19,26 @@ fi
 
 
 NTP_CONF=/etc/ntp.conf
-LIBVIRTD_CONF=/etc/libvirtd.conf
-QEMU_CONF=/etc/libvirt/qemu.conf
 
 QUANTUM_CONF=/etc/quantum/quantum.conf
 OVS_QUANTUM_PLUGIN_INI=/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini
 
-quantum_agent_install() {
+function quantum_agent_install() {
 	sudo apt-get -y install linux-headers-`uname -r` quantum-plugin-openvswitch-agent openvswitch-datapath-source
 
 	sudo module-assistant auto-install openvswitch-datapath
 }
 
-quantum_agent_configure() {
+function quantum_agent_configure() {
     #===========================
     # quantum.conf
     #---------------------------
     sudo sed -i 's/^# auth_strategy.*/auth_strategy = keystone/g' $QUANTUM_CONF
     sudo sed -i 's/^# fake_rabbit.*/fake_rabbit = False/g' $QUANTUM_CONF
     sudo set -i 's/^debug =.*/debug = False/g' $QUANTUM_CONF
-    sudo sed -i 's/^# rabbit_host.*/rabbit_host = ${RABBIT_ENDPOINT}/g' $QUANTUM_CONF
-    sudo sed -i 's/^# rabbit_port.*/rabbit_port = ${RABBIT_PORT}/g' $QUANTUM_CONF
+
+    sudo sed -i 's/^# rabbit_host.*/rabbit_host = $RABBIT_ENDPOINT/g' $QUANTUM_CONF
+    sudo sed -i 's/^# rabbit_port.*/rabbit_port = $RABBIT_PORT/g' $QUANTUM_CONF
 
     # ovs_quantum_plugin.ini
     sudo rm -f $OVS_QUANTUM_PLUGIN_INI
@@ -48,7 +47,9 @@ quantum_agent_configure() {
 sql_connection = mysql://quantum:$MYSQL_DB_PASS@$MYSQL_SERVER:3306/quantum
 reconnect_interval = 2
 [OVS]
+#=========================
 # VLAN
+#-------------------------
 tenant_network_type=vlan
 network_vlan_ranges = ${PHYSICAL_NETWORK_NAME}:1:4094
 bridge_mappings = physnet1:br-${PRIVATE_INTERFACE}
@@ -72,28 +73,10 @@ EOF
     #---------------------------
     sudo sed -i 's/^server ntp.ubuntu.com/server ${QUANTUM_ENDPOINT}/g' ${NTP_CONF}
 
-    #===========================
-    # libvirtd
-    # NOTE: "none" is used just for a TEST / DEV env 
-    #---------------------------
-    sudo sed -i 's/^#listen_tls = 0/listen_tls = 0/g' ${LIBVIRTD_CONF}
-    sudo sed -i 's/^#listen_tcp = 1/listen_tcp = 1/g' ${LIBVIRTD_CONF}
-    sudo sed -i 's/^auth_tcp = /auth_tcp = "none"/g' ${LIBVIRTD_CONF}
-
-    #===========================
-    # qemu.conf
-    #---------------------------
-
-    sudo sed -i 's/^#cgroup_device_acl = [/cgroup_device_acl = [/g'   ${QEMU_CONF}
-    sudo sed -i 's/^#.*"/dev/null", "/dev/full", "/dev/zero",/    "/dev/null", "/dev/full", "/dev/zero",/g' ${QEMU_CONF}
-    sudo sed -i 's/^#.*"/dev/random", "/dev/urandom",/"/dev/random", "/dev/urandom",/g' ${QEMU_CONF}
-    sudo sed -i 's/^#.*"/dev/ptmx", "/dev/kvm", "/dev/kqemu",/"/dev/ptmx", "/dev/kvm", "/dev/kqemu",/g' ${QEMU_CONF}
-    sudo sed -i 's/^#.*"/dev/rtc","/dev/hpet"/"/dev/rtc","/dev/hpet","/dev/net/tun"/g' ${QEMU_CONF}
-    sudo sed -i 's/^#]'
 
 }
 
-quantum_agent_restart() {
+function quantum_agent_restart() {
     sudo service openvswitch-switch stop
     sudo service openvswitch-switch start
     sudo service quantum-plugin-openvswitch-agent stop
@@ -101,11 +84,24 @@ quantum_agent_restart() {
 
     sudo service ntp restart
 
-    sudo virsh net-destroy  default
-    sudo virsh net-undefine default
 }
 
+function ovs_configure() {
+    # VM Communication network bridge
+    sudo ovs-vsctl add-br   ${INT_BRIDGE}
+    
+    sudo ovs-vsctl add-br   br-${PRIVATE_INTERFACE}
+    sudo ovs-vsctl add-port br-${PRIVATE_INTERFACE} ${PRIVATE_INTERFACE}
+
+}
+
+
+#=========================
 # Main
+#-------------------------
 quantum_agent_install
 quantum_agent_configure
 quantum_agent_restart
+
+
+ovs_configure
