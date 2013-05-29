@@ -47,9 +47,9 @@ cinder_configure() {
 	#=============================
 	# Have to edit the /var/etc/tgt file 
 	#-----------------------------
-	sude set -i "s/^include \/etc\/tgt\/conf\.d\/\*\.conf/# include \/etc\/tgt\/conf\.d\/\*\.conf/g" ${TGT_CONF}
-	sudo set -i "$ ainclude /etc/tgt/conf.d/cinder_tgt.conf" ${TGT_CONF}
-	sudo set -i "$ ainclude /etc/tgt/conf.d/nova_tgt.conf"   ${TGT_CONF}
+	sudo sed -i "s/^include \/etc\/tgt\/conf\.d\/\*\.conf/# include \/etc\/tgt\/conf\.d\/\*\.conf/g" ${TGT_CONF}
+	sudo sed -i "$ ainclude /etc/tgt/conf.d/cinder_tgt.conf" ${TGT_CONF}
+	sudo sed -i "$ ainclude /etc/tgt/conf.d/nova_tgt.conf"   ${TGT_CONF}
 }
 
 cinder_device_configure() {
