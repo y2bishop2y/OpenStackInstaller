@@ -30,7 +30,7 @@ nova_compute_install() {
     sudo apt-get -y install nova-api-metadata nova-compute nova-compute-qemu nova-doc
 
     #-- Because I need a real editor
-    sudo apt-get install emacs23
+    sudo apt-get -y install emacs23
 }
 
 nova_configure() {
@@ -130,7 +130,7 @@ EOF
     sudo sed -i "s/127.0.0.1/$KEYSTONE_ENDPOINT/g" $NOVA_API_PASTE
     sudo sed -i "s/%SERVICE_TENANT_NAME%/$SERVICE_TENANT/g" $NOVA_API_PASTE
     sudo sed -i "s/%SERVICE_USER%/nova/g" $NOVA_API_PASTE
-    sudo sed -i "s/%SERVICE_PASSWORD%/$SERVICE_PASS/g" $NOVA_API_PASTE
+    sudo sed -i "s/%SERVICE_PASSWORD%/${SERVICE_PASS}/g" $NOVA_API_PASTE
 
 
     #===========================
@@ -148,18 +148,18 @@ EOF
     # libvirtd
     # NOTE: "none" is used just for a TEST / DEV env 
     #---------------------------
-    sudo sed -i 's/^#listen_tls = 0/listen_tls = 0/g' ${LIBVIRTD_CONF}
-    sudo sed -i 's/^#listen_tcp = 1/listen_tcp = 1/g' ${LIBVIRTD_CONF}
-    sudo sed -i 's/^#auth_tcp = /auth_tcp = "none"  # NOTE this is only for testing/g' ${LIBVIRTD_CONF}
+    sudo sed -i "s/^#listen_tls = 0/listen_tls = 0/g" ${LIBVIRTD_CONF}
+    sudo sed -i "s/^#listen_tcp = 1/listen_tcp = 1/g" ${LIBVIRTD_CONF}
+    sudo sed -i "s/^#auth_tcp = /auth_tcp = \"none\"  # NOTE this is only for testing/g" ${LIBVIRTD_CONF}
 
 
     #===========================
     # Add the -l options so deamon 
     # can listen for TCP/IP connections
     #===========================
-    sudo sed -i 's/^env libvirtd_opts="-d"/env libvirtd_opts="-d -l"/g' ${LIBVIRT_INIT_CONF}
+    sudo sed -i "s/^env libvirtd_opts="-d"/env libvirtd_opts=\"-d -l\"/g" ${LIBVIRT_INIT_CONF}
 
-    sudo sed -i 's/libvirtd_opts="-d"/libvirtd_opts="-d -l"/g' ${LIBVIRT_DEFAULT_CONF}
+    sudo sed -i "s/libvirtd_opts="-d"/libvirtd_opts=\"-d -l\"/g" ${LIBVIRT_DEFAULT_CONF}
 
 
     #===========================

@@ -25,7 +25,7 @@ OVS_QUANTUM_PLUGIN_INI=/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini
 
 function quantum_agent_install() {
 	sudo apt-get -y install linux-headers-`uname -r` quantum-plugin-openvswitch-agent openvswitch-datapath-source
-	sudo apt-get install pm-utils
+	sudo apt-get -y install pm-utils
 
 	sudo module-assistant auto-install openvswitch-datapath
 }
@@ -34,12 +34,12 @@ function quantum_agent_configure() {
     #===========================
     # quantum.conf
     #---------------------------
-    sudo sed -i 's/^# auth_strategy.*/auth_strategy = keystone/g' $QUANTUM_CONF
-    sudo sed -i 's/^# fake_rabbit.*/fake_rabbit = False/g' $QUANTUM_CONF
-    sudo set -i 's/^debug =.*/debug = False/g' $QUANTUM_CONF
+    sudo sed -i "s/^# auth_strategy.*/auth_strategy = keystone/g" $QUANTUM_CONF
+    sudo sed -i "s/^# fake_rabbit.*/fake_rabbit = False/g" $QUANTUM_CONF
+    sudo set -i "s/^debug =.*/debug = False/g" $QUANTUM_CONF
 
-    sudo sed -i 's/^# rabbit_host.*/rabbit_host = $RABBIT_ENDPOINT/g' $QUANTUM_CONF
-    sudo sed -i 's/^# rabbit_port.*/rabbit_port = $RABBIT_PORT/g' $QUANTUM_CONF
+    sudo sed -i "s/^# rabbit_host.*/rabbit_host = $RABBIT_ENDPOINT/g" $QUANTUM_CONF
+    sudo sed -i "s/^# rabbit_port.*/rabbit_port = ${RABBIT_PORT}/g" $QUANTUM_CONF
 
     # ovs_quantum_plugin.ini
     sudo rm -f $OVS_QUANTUM_PLUGIN_INI
@@ -72,7 +72,7 @@ EOF
     #===========================
     # /etc/ntp.conf
     #---------------------------
-    sudo sed -i 's/^server ntp.ubuntu.com/server ${QUANTUM_ENDPOINT}/g' ${NTP_CONF}
+    sudo sed -i "s/^server ntp.ubuntu.com/server ${QUANTUM_ENDPOINT}/g" ${NTP_CONF}
 
 
 }
