@@ -127,10 +127,10 @@ EOF
     sudo chown nova:nova $NOVA_CONF
 
     # Paste file
-    sudo sed -i "s/127.0.0.1/$KEYSTONE_ENDPOINT/g" $NOVA_API_PASTE
-    sudo sed -i "s/%SERVICE_TENANT_NAME%/$SERVICE_TENANT/g" $NOVA_API_PASTE
-    sudo sed -i "s/%SERVICE_USER%/nova/g" $NOVA_API_PASTE
-    sudo sed -i "s/%SERVICE_PASSWORD%/${SERVICE_PASS}/g" $NOVA_API_PASTE
+    sudo sed -i "s/127.0.0.1/${KEYSTONE_ENDPOINT}/g"          ${NOVA_API_PASTE}
+    sudo sed -i "s/%SERVICE_TENANT_NAME%/${SERVICE_TENANT}/g" ${NOVA_API_PASTE}
+    sudo sed -i "s/%SERVICE_USER%/nova/g"                     ${NOVA_API_PASTE}
+    sudo sed -i "s/%SERVICE_PASSWORD%/${SERVICE_PASS}/g"      ${NOVA_API_PASTE}
 
 
     #===========================
@@ -157,9 +157,9 @@ EOF
     # Add the -l options so deamon 
     # can listen for TCP/IP connections
     #===========================
-    sudo sed -i "s/^env libvirtd_opts="-d"/env libvirtd_opts=\"-d -l\"/g" ${LIBVIRT_INIT_CONF}
+    sudo sed -i "s/^env libvirtd_opts=\"-d\"/env libvirtd_opts=\"-d -l\"/g" ${LIBVIRT_INIT_CONF}
 
-    sudo sed -i "s/libvirtd_opts="-d"/libvirtd_opts=\"-d -l\"/g" ${LIBVIRT_DEFAULT_CONF}
+    sudo sed -i "s/libvirtd_opts=\"-d\"/libvirtd_opts=\"-d -l\"/g"          ${LIBVIRT_DEFAULT_CONF}
 
 
     #===========================

@@ -42,7 +42,9 @@ horizon_restart() {
 	sudo service memcached restart
 }
 
+#======================
 # Main
+#----------------------
 horizon_install
 horizon_configure
 horizon_restart
