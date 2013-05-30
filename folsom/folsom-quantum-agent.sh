@@ -37,9 +37,10 @@ function quantum_agent_configure() {
     sudo sed -i "s/^# auth_strategy.*/auth_strategy = keystone/g"       ${QUANTUM_CONF}
     sudo sed -i "s/^# fake_rabbit.*/fake_rabbit = False/g"              ${QUANTUM_CONF}
     sudo set -i "s/^debug =.*/debug = False/g"                          ${QUANTUM_CONF}
+    sudo set -i "s/^verbose =.*/verbose = False/g"                          ${QUANTUM_CONF}
 
-    sudo sed -i "s/^#\d*rabbit_host.*/rabbit_host = ${RABBIT_ENDPOINT}/g" ${QUANTUM_CONF}
-    sudo sed -i "s/^#\d*rabbit_port.*/rabbit_port = ${RABBIT_PORT}/g"     ${QUANTUM_CONF}
+    sudo sed -i "s/^# rabbit_host.*/rabbit_host = ${RABBIT_ENDPOINT}/g" ${QUANTUM_CONF}
+    sudo sed -i "s/^# rabbit_port.*/rabbit_port = ${RABBIT_PORT}/g"     ${QUANTUM_CONF}
 
     #===========================
     # ovs_quantum_plugin.ini
