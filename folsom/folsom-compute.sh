@@ -43,7 +43,9 @@ allow_admin_api=true
 debug = False
 verbose = False
 api_paste_config=/etc/nova/api-paste.ini
-scheduler_driver=nova.scheduler.simple.SimpleScheduler
+# SimpleScheduler has been deprecated in Folsom
+# scheduler_driver=nova.scheduler.simple.SimpleScheduler
+scheduler_driver=nova.scheduler.chance.ChanceScheduler
 s3_host=$SWIFT_ENDPOINT
 ec2_host=$EC2_ENDPOINT
 ec2_dmz_host=$EC2_ENDPOINT

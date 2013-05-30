@@ -28,13 +28,17 @@ ovs_install() {
 
 ovs_configure() {
     # VM Communication network bridge
+    # br-int will be used for VM integration
     sudo ovs-vsctl add-br   ${INT_BRIDGE}
+
+    # br-eth1 with bue used for VM configuration
     sudo ovs-vsctl add-br   br-${PRIVATE_INTERFACE}
     sudo ovs-vsctl add-port br-${PRIVATE_INTERFACE} ${PRIVATE_INTERFACE}
 
     # External bridge
+    # br-ex is used to make to VM accessible from the network
     sudo ovs-vsctl add-br   ${EXT_BRIDGE}
-    sudo ovs-vsctl add-port ${EXT_BRIDGE} ${PRIVATE_INTERFACE}
+    sudo ovs-vsctl add-port ${EXT_BRIDGE} ${PUBLIC_INTERFACE}
 }
 
 #==============================

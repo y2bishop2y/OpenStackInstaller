@@ -48,12 +48,14 @@ reconnect_interval = 2
 tenant_network_type=vlan
 network_vlan_ranges = ${PHYSICAL_NETWORK_NAME}:1:4094
 bridge_mappings = physnet1:br-${PRIVATE_INTERFACE}
+
 #tenant_network_type = gre
 #tunnel_id_ranges = 1:1000
 #integration_bridge = ${INT_BRIDGE}
 #tunnel_bridge = br-tun
 #local_ip = 10.0.0.201
 #enable_tunneling = True
+
 [AGENT]
 root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
 EOF

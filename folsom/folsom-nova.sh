@@ -22,6 +22,10 @@ NOVA_API_PASTE=/etc/nova/api-paste.ini
 
 nova_install() {
     sudo apt-get -y install nova-api nova-cert nova-doc nova-objectstore nova-scheduler nova-volume rabbitmq-server novnc nova-novncproxy nova-consoleauth python-cinderclient
+
+    #-- Amazon Tools
+    sudo apt-get install -y euca2ool
+    sudo apt-get install -y unzip
 }
 
 nova_configure() {
@@ -34,11 +38,14 @@ allow_admin_api=true
 debug = False
 verbose = False
 api_paste_config=/etc/nova/api-paste.ini
-scheduler_driver=nova.scheduler.simple.SimpleScheduler
+# SImple Scheduler has been deprecated in Folsom
+# scheduler_driver=nova.scheduler.simple.SimpleScheduler
+scheduler_driver=nova.scheduler.chance.ChanceScheduler
 s3_host=$SWIFT_ENDPOINT
 ec2_host=$EC2_ENDPOINT
 ec2_dmz_host=$EC2_ENDPOINT
-rabbit_host=$RABBIT_ENDPOINT
+rabbit_host=${RABBIT_ENDPOINT}
+rabbit_port=${RABBIT_PORT}
 cc_host=$NOVA_ENDPOINT
 nova_url=http://$NOVA_ENDPOINT:8774/v1.1/
 sql_connection=mysql://nova:$MYSQL_DB_PASS@$MYSQL_SERVER/nova
