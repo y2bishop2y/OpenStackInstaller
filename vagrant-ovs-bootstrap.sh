@@ -22,7 +22,6 @@ fi
 
 # Ensure git is installed
 sudo apt-get update
-sudo apt-get -y install git
 
 cd folsom
 ./install-ovs.sh

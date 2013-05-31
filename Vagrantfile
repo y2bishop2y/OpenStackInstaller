@@ -28,9 +28,8 @@ Vagrant.configure("2") do |config|
     # via the IP. Host-only networks can talk to the host machine as well as
     # any other machines on the same network, but cannot be accessed (through this
     # network interface) by any external networks.
-    controller_config.vm.network :private_network, ip: "100.10.10.1", :netmask => "255.255.0.0"
-    controller_config.vm.network :private_network, ip: "100.20.20.1", :netmask => "255.255.0.0"
-
+    controller_config.vm.network :private_network, ip: "100.10.10.1",   :netmask => "255.255.255.0"
+    controller_config.vm.network :private_network, ip: "192.168.1.1"
     # Customise the VM virtual hardware
 
     controller_config.vm.provider "virtualbox" do |v|
@@ -42,11 +41,8 @@ Vagrant.configure("2") do |config|
     end
   
     # Execute the installation scripts (via SSH)
-    # controller_config.vm.provision :shell, :path => "vagrant-ovs-bootstrap.sh"
-    # controller_config.vm.provision :shell, :path => "vagrant-controller-bootstrap.sh"
-
-    # controller_config.vm.provision :shell, :inline => "cd /vagrant && ./vagrant-ovs-bootstrap.sh"
-    # controller_config.vm.provision :shell, :inline => "cd /vagrant && ./vagrant-controller-bootstrap.sh"
+    controller_config.vm.provision :shell, :inline => "cd /vagrant && ./vagrant-ovs-bootstrap.sh"
+    controller_config.vm.provision :shell, :inline => "cd /vagrant && ./vagrant-controller-bootstrap.sh"
 
   end
 
@@ -65,9 +61,9 @@ Vagrant.configure("2") do |config|
     # doesn't already exist on the user's system.
     compute_config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-    # compute_config.vm.network :private_network, ip: "172.16.0.205", :netmask => "255.255.0.0"
-    compute_config.vm.network :private_network, ip: "100.10.10.2",   :netmask => "255.255.0.0"
-    compute_config.vm.network :private_network, ip: "100.20.20.2"
+    compute_config.vm.network :private_network, ip: "100.10.10.3", :netmask => "255.255.255.0"
+    compute_config.vm.network :private_network, ip: "192.168.1.3"
+
 
     # Customise the VM virtual hardware
     compute_config.vm.provider "virtualbox" do |v|

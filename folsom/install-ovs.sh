@@ -23,7 +23,7 @@ ovs_install() {
     sudo apt-get update
     sudo apt-get -y install linux-headers-`uname -r` openvswitch-switch 
     sudo apt-get -y install pm-utils
-    sudo service -y openvswitch-switch start
+    sudo service openvswitch-switch start
 }
 
 ovs_configure() {
@@ -48,6 +48,7 @@ ovs_install
 ovs_configure
 
 # Configure ${EXT_BRIDGE} to reach public network :
+#  ERB: TEMP
 sudo ip addr flush dev ${EXT_BRIDGE}
 sudo ip addr add ${EXT_BRIDGE_IP}/${EXT_BRIDGE_NETMASK} dev ${EXT_BRIDGE}
 sudo ip link set ${EXT_BRIDGE} up

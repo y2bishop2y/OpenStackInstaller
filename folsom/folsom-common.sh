@@ -36,6 +36,9 @@ configure_package_archive() {
 
 install_base_packages() {
     sudo apt-get -y install vlan bridge-utils ntp python-mysqldb
+
+    # For debuging and trouble shooting 
+    sudo apt-get -y ethtool
 }
 
 system_tuning() {
