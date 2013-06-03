@@ -32,7 +32,7 @@ cd folsom
 
 echo "================================"
 echo "Setting up hosts file" 
-echo "${CONTROLLER_NODE_IP} controller-node" >> /etc/hosts
+echo "${CONTROLLER_NODE_IP} controller" >> /etc/hosts
 echo "--------------------------------"
 echo "" 
 echo "================================"

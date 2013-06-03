@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
     controller_config.vm.box      = "precise64"
 
     # Puppet wants a hostname that is FQDN
-    controller_config.vm.hostname = "controller.local"
+    controller_config.vm.hostname = "controller"
 
     # The url from where the 'config.vm.box' box will be fetched if it
     # doesn't already exist on the user's system.
@@ -28,8 +28,8 @@ Vagrant.configure("2") do |config|
     # via the IP. Host-only networks can talk to the host machine as well as
     # any other machines on the same network, but cannot be accessed (through this
     # network interface) by any external networks.
-    controller_config.vm.network :private_network, ip: "192.168.1.2", :netmask => "255.255.0.0"
-    controller_config.vm.network :private_network, ip: "10.5.5.2"
+    controller_config.vm.network :private_network, ip: "192.168.0.201", :netmask => "255.255.0.0"
+    controller_config.vm.network :private_network, ip: "10.5.5.201"
     # Customise the VM virtual hardware
 
     controller_config.vm.provider "virtualbox" do |v|
@@ -55,14 +55,14 @@ Vagrant.configure("2") do |config|
     compute_config.vm.box       = "precise64"
 
     # Puppet wants a hostname that is FQDN
-    compute_config.vm.hostname = "compute.local"
+    compute_config.vm.hostname = "compute"
 
     # The url from where the 'config.vm.box' box will be fetched if it
     # doesn't already exist on the user's system.
     compute_config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-    compute_config.vm.network :private_network, ip: "192.168.1.3", :netmask => "255.255.0.0"
-    compute_config.vm.network :private_network, ip: "10.5.5.3"
+    compute_config.vm.network :private_network, ip: "192.168.0.202", :netmask => "255.255.0.0"
+    compute_config.vm.network :private_network, ip: "10.5.5.202"
 
 
 
@@ -87,7 +87,7 @@ Vagrant.configure("2") do |config|
     network_config.vm.box       = "precise64"
 
     # Puppet wants a hostname that is FQDN
-    network_config.vm.hostname = "network.local"
+    network_config.vm.hostname = "network"
 
     # The url from where the 'config.vm.box' box will be fetched if it
     # doesn't already exist on the user's system.
@@ -108,7 +108,7 @@ Vagrant.configure("2") do |config|
     monitor_config.vm.box       = "precise64"
 
     # Puppet wants a hostname that is FQDN
-    monitor_config.vm.hostname = "monitor.local"
+    monitor_config.vm.hostname = "monitor"
 
     # The url from where the 'config.vm.box' box will be fetched if it
     # doesn't already exist on the user's system.

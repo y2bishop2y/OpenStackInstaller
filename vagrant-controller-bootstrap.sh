@@ -27,7 +27,7 @@ cd folsom
 ./install-folsom.sh controller
 
 echo "================================"
-echo "${COMPUTE_NODE_IP} compute-node" >> /etc/hosts
+echo "${COMPUTE_NODE_IP} compute" >> /etc/hosts
 echo "--------------------------------"
 echo "" 
 echo "================================"
