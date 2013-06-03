@@ -33,8 +33,8 @@ quantum_configure() {
     #-------------------------
     sudo sed -i "s/^# auth_strategy.*/auth_strategy = keystone/g" ${QUANTUM_CONF}
     sudo sed -i "s/^# fake_rabbit.*/fake_rabbit = False/g"        ${QUANTUM_CONF}
-    sudo set -i "s/^debug =.*/debug = False/g"                    ${QUANTUM_CONF}
-    sudo set -i "s/^verbose =.*/verbose = False/g"                ${QUANTUM_CONF}
+    sudo set -i "s/^debug.*/debug = False/g"                    ${QUANTUM_CONF}
+    sudo set -i "s/^verbose.*/verbose = False/g"                ${QUANTUM_CONF}
 
 
 

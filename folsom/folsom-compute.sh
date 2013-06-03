@@ -85,7 +85,7 @@ novncproxy_base_url=http://$NOVA_ENDPOINT:6080/vnc_auto.html
 novncproxy_port=6080
 # The address of the compute NODE Have move this to a config
 # vncserver_proxyclient_address=192.168.1.3
-vncserver_proxyclient_address=10.10.10.3
+vncserver_proxyclient_address=192.168.1.3
 
 vncserver_listen=0.0.0.0
 # vncserver_proxyclient_address=$NOVA_ENDPOINT
