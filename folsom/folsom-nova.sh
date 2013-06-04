@@ -67,8 +67,11 @@ image_service=nova.image.glance.GlanceImageService
 #-----------------------
 # connection_type=libvirt
 compute_driver = libvirt.LibvirtDriver
-libvirt_type=$LIBVIRT_TYPE
+libvirt_type=${LIBVIRT_TYPE}
 libvirt_use_virtio_for_bridges=true
+
+libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
+
 start_guests_on_host_boot=false
 resume_guests_state_on_host_boot=false
 
@@ -94,6 +97,7 @@ vncserver_listen=0.0.0.0
 #fixed_range=$PRIVATE_RANGE
 #routing_source_ip=$NOVA_ENDPOINT
 #network_size=1
+
 network_api_class=nova.network.quantumv2.api.API
 quantum_url=http://$QUANTUM_ENDPOINT:9696
 quantum_auth_strategy=keystone
@@ -101,8 +105,9 @@ quantum_admin_tenant_name=$SERVICE_TENANT
 quantum_admin_username=quantum
 quantum_admin_password=$SERVICE_PASS
 quantum_admin_auth_url=http://$KEYSTONE_ENDPOINT:35357/v2.0
-libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
+
 linuxnet_interface_driver=nova.network.linux_net.LinuxOVSInterfaceDriver
+
 firewall_driver=nova.virt.libvirt.firewall.IptablesFirewallDriver
 force_dhcp_release=True
 multi_host=True

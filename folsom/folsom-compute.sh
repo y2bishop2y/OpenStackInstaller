@@ -75,7 +75,7 @@ image_service=nova.image.glance.GlanceImageService
 compute_driver = libvirt.LibvirtDriver
 libvirt_type=$LIBVIRT_TYPE
 
-libvirt_ovs_bridge=br-int
+libvirt_ovs_bridge=br-eth2
 libvirt_vif_type=ethernet
 
 libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
@@ -148,7 +148,7 @@ EOF
     #===========================
     # nova-compute.conf
     #---------------------------
-    # sudo sed -i "\$alibvirt_ovs_bridge=br-int"  ${NOVA_COMPUTE_CONF}
+    # sudo sed -i "\$alibvirt_ovs_bridge=br-eth2"  ${NOVA_COMPUTE_CONF}
     # sudo sed -i "\$alibvirt_vif_type=ethernet"  ${NOVA_COMPUTE_CONF}
     # sudo sed -i "\$alibvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver"  ${NOVA_COMPUTE_CONF}
     # sudo sed -i "\$alibvirt_use_virtio_for_bridges=True"  ${NOVA_COMPUTE_CONF}

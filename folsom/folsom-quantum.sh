@@ -52,13 +52,6 @@ tenant_network_type=vlan
 network_vlan_ranges = ${PHYSICAL_NETWORK_NAME}:1:4094
 bridge_mappings = physnet1:br-${PRIVATE_INTERFACE}
 
-#tenant_network_type = gre
-#tunnel_id_ranges = 1:1000
-#integration_bridge = ${INT_BRIDGE}
-#tunnel_bridge = br-tun
-#local_ip = 10.0.0.201
-#enable_tunneling = True
-
 [AGENT]
 root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
 EOF
@@ -80,7 +73,9 @@ EOF
     sudo set -i "s/^# metadata_port.*/metadata_port = 8775/g"       $QUANTUM_L3_AGENT_INI
     sudo sed -i "s/^# use_namespaces.*/use_namespaces = False/g"    $QUANTUM_L3_AGENT_INI
 
+    #=========================
     # dhcp_agent.ini
+    #-------------------------
     echo "use_namespaces = False" | sudo tee -a $QUANTUM_DHCP_AGENT_INI	
 
     #=========================
