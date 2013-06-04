@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
     # any other machines on the same network, but cannot be accessed (through this
     # network interface) by any external networks.
     controller_config.vm.network :private_network, ip: "192.168.0.201", :netmask => "255.255.0.0"
-    controller_config.vm.network :private_network, ip: "10.5.5.201"
+    controller_config.vm.network :private_network, ip: "10.5.4.201"
     # Customise the VM virtual hardware
 
     controller_config.vm.provider "virtualbox" do |v|
@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
     compute_config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
     compute_config.vm.network :private_network, ip: "192.168.0.202", :netmask => "255.255.0.0"
-    compute_config.vm.network :private_network, ip: "10.5.5.202"
+    compute_config.vm.network :private_network, ip: "10.5.4.202"
 
 
 

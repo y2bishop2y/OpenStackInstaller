@@ -36,8 +36,8 @@ function quantum_agent_configure() {
     #---------------------------
     sudo sed -i "s/^# auth_strategy.*/auth_strategy = keystone/g"       ${QUANTUM_CONF}
     sudo sed -i "s/^# fake_rabbit.*/fake_rabbit = False/g"              ${QUANTUM_CONF}
-    sudo set -i "s/^debug.*/debug = False/g"                            ${QUANTUM_CONF}
-    sudo set -i "s/^verbose.*/verbose = False/g"                        ${QUANTUM_CONF}
+    sudo sed -i "s/^debug.*/debug = False/g"                            ${QUANTUM_CONF}
+    sudo sed -i "s/^verbose.*/verbose = False/g"                        ${QUANTUM_CONF}
 
     sudo sed -i "s/^# rabbit_host.*/rabbit_host = ${RABBIT_ENDPOINT}/g" ${QUANTUM_CONF}
     sudo sed -i "s/^# rabbit_port.*/rabbit_port = ${RABBIT_PORT}/g"     ${QUANTUM_CONF}
@@ -68,9 +68,9 @@ bridge_mappings = physnet1:br-${PRIVATE_INTERFACE}
 root_helper = sudo /usr/bin/quantum-rootwrap /etc/quantum/rootwrap.conf
 EOF
 
-    sudo mv /tmp/ovs_quantum_plugin.ini $OVS_QUANTUM_PLUGIN_INI
-    sudo chown quantum:quantum $OVS_QUANTUM_PLUGIN_INI
-    sudo chmod 644 $OVS_QUANTUM_PLUGIN_INI
+    sudo mv /tmp/ovs_quantum_plugin.ini ${OVS_QUANTUM_PLUGIN_INI}
+    sudo chown quantum:quantum          ${OVS_QUANTUM_PLUGIN_INI}
+    sudo chmod 644                      ${OVS_QUANTUM_PLUGIN_INI}
 
     #===========================
     # /etc/ntp.conf
